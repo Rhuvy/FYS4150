@@ -1,7 +1,7 @@
 #include <iostream>
 #include <armadillo>
 #include "PenningTrap.hpp"
-#include "Particle.hpp""  
+#include "Particle.hpp" 
   
   // Constructor
   PenningTrap(double B0_in, double V0_in, double d_in);
