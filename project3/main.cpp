@@ -30,9 +30,9 @@ int main(){
     int N = 50000; // should be 50 ms / dt to test
 
     arma::vec t = arma::linspace(0, N*dt, N);
-    arma::vec x = arma::zeros<arma::vec>(N);
-    arma::vec y = arma::zeros<arma::vec>(N);
-    arma::vec z = arma::zeros<arma::vec>(N);
+    arma::vec x = arma::vec(N, arma::fill::zeros);
+    arma::vec y = arma::vec(N, arma::fill::zeros);
+    arma::vec z = arma::vec(N, arma::fill::zeros);
 
     // Initialize the value 
     x(0) = p1.get_position()(0);
@@ -40,9 +40,9 @@ int main(){
     z(0) = p1.get_position()(2);
 
     // For RK4
-    arma::vec x4 = arma::zeros<arma::vec>(N);
-    arma::vec y4 = arma::zeros<arma::vec>(N);
-    arma::vec z4 = arma::zeros<arma::vec>(N);
+    arma::vec x4 = arma::vec(N, arma::fill::zeros);
+    arma::vec y4 = arma::vec(N, arma::fill::zeros);
+    arma::vec z4 = arma::vec(N, arma::fill::zeros);
 
     // Initialize the value
     x4(0) = p1.get_position()(0);

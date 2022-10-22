@@ -200,11 +200,16 @@ void PenningTrap::evolve_RK4(double dt){
 
 // Evolve the system one time step (dt) using Forward Euler
 void PenningTrap::evolve_forward_Euler(double dt){
-  
+  // IMPORTANT
+  // We have to loop separetly the coefficients
+  // because we need to use the old positions and velocities to calculate the new ones
+  // when we have interaction since we need the old position at all time
+
+
   // Initialization
   int N = particles.size();
-  arma::mat r_new = arma::zeros<arma::mat>(N, 3);
-  arma::mat v_new = arma::zeros<arma::mat>(N, 3);
+  std::vector<arma::vec> r_new(N);
+  std::vector<arma::vec> v_new(N);
 
   for(int i = 0; i < N; i++){
 
@@ -217,14 +222,14 @@ void PenningTrap::evolve_forward_Euler(double dt){
     arma::vec a = F / particles[i].get_mass();
 
     // Calculate the new position and velocity of each particle
-    r_new.row(i) = r_i + dt * v_i;
-    v_new.row(i) = v_i + dt * a;
+    r_new[i] = r_i + dt * v_i;
+    v_new[i] = v_i + dt * a;
   }
 
   //Now we update the position and velocity of each particle in particles
   for(int i = 0; i < N; i++){
-    particles[i].set_position(r_new.row(i));
-    particles[i].set_velocity(v_new.row(i));
+    particles[i].set_position(r_new[i]);
+    particles[i].set_velocity(v_new[i]);
   }
 
 }
