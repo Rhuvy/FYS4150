@@ -14,7 +14,7 @@ class PenningTrap{
         double d;   // Distance between plates    
         double ke = 1.3893533e5; // Coulomb constant    
         std::vector<Particle> particles;   // Vector of particles
-        bool interaction;   // Interaction between particles
+        bool interaction = false;   // Interaction between particles
 
         // For EX9 not useful for now
         double frequency;   // Frequency of the oscillation
