@@ -6,7 +6,7 @@
 #include <vector>
 
 // Structure
-struct Particle{
+class Particle{
 
     // Definition of public so that we can access the variables from outside the class (?)
     public:
