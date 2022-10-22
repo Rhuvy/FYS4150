@@ -108,8 +108,93 @@ arma::vec PenningTrap::total_force(int i){
 
 // Evolve the system one time step (dt) using Runge-Kutta 4th order
 void PenningTrap::evolve_RK4(double dt){
-  //tg = 0;
+    // IMPORTANT
+    // We have to loop separetly the coefficients 
+    // because we need to use the old positions and velocities to calculate the new ones
+    // when we have interaction since we need the old position at all time 
+    // in the calculation of the force
 
+
+    // Initialization
+    int N = particles.size();
+
+    // Create a initial 'pictures' of our particle 
+    // Like this we can always access the intial position and velocity
+    std::vector<Particle> particles_initial = particles;
+ 
+    // k is for the velocity and l for the position
+    std::vector<arma::vec> k1(N), k2(N), k3(N), k4(N);
+    std::vector<arma::vec> l1(N), l2(N), l3(N), l4(N);
+
+    // Calculate the k1 and l1 for each particle
+    for (int i = 0; i < N; i++){
+      // Calculate k1 and l1
+      k1[i] = dt * total_force(i) / particles[i].get_mass();
+      l1[i] = dt * particles[i].get_velocity();
+    }
+
+    for (int i = 0; i < N; i++){
+      //Calculate new r and v
+      arma::vec r = particles_initial[i].get_position() + l1[i] / 2;
+      arma::vec v = particles_initial[i].get_velocity() + k1[i] / 2;
+
+      // Update the particle
+      particles[i].set_position(r);
+      particles[i].set_velocity(v);
+    }
+
+    // Calculate the k2 and l2 for each particle
+    for (int i = 0; i < N; i++){
+      // Calculate k2 and l2
+      k2[i] = dt * total_force(i) / particles[i].get_mass();
+      l2[i] = dt * particles[i].get_velocity();
+    }
+
+    for (int i = 0; i < N; i++){
+      //Calculate new r and v
+      arma::vec r = particles_initial[i].get_position() + l2[i] / 2;
+      arma::vec v = particles_initial[i].get_velocity() + k2[i] / 2;
+
+      // Update the particle
+      particles[i].set_position(r);
+      particles[i].set_velocity(v);
+    }
+
+    // Calculate the k3 and l3 for each particle
+    for (int i = 0; i < N; i++){
+      // Calculate k3 and l3
+      k3[i] = dt * total_force(i) / particles[i].get_mass();
+      l3[i] = dt * particles[i].get_velocity();
+    }
+
+    for (int i = 0; i < N; i++){
+      //Calculate new r and v
+      arma::vec r = particles_initial[i].get_position() + l3[i];
+      arma::vec v = particles_initial[i].get_velocity() + k3[i];
+
+      // Update the particle
+      particles[i].set_position(r);
+      particles[i].set_velocity(v);
+    }
+
+    // Calculate the k4 and l4 for each particle
+
+    for (int i = 0; i < N; i++){
+      // Calculate k4 and l4
+      k4[i] = dt * total_force(i) / particles[i].get_mass();
+      l4[i] = dt * particles[i].get_velocity();
+    }
+
+    for (int i = 0; i < N; i++){
+
+      //Calculate new r and v
+      arma::vec r = particles_initial[i].get_position() + (l1[i] + 2 * l2[i] + 2 * l3[i] + l4[i]) / 6;
+      arma::vec v = particles_initial[i].get_velocity() + (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]) / 6;
+
+      // Update the particle
+      particles[i].set_position(r);
+      particles[i].set_velocity(v);
+    }
 
 }
 
