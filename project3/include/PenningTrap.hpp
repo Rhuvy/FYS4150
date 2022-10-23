@@ -17,7 +17,7 @@ class PenningTrap{
         bool interaction = false;   // Interaction between particles
 
         // For EX9 not useful for now
-        double frequency;   // Frequency of the oscillation
+        double frequency;   // Frequency of the oscillation 
         double amplitude;   // Amplitude of the oscillation
 
         // Constructor
@@ -52,6 +52,24 @@ class PenningTrap{
 
         // Evolve the system one time step (dt) using Forward Euler
         void evolve_forward_Euler(double dt);
+
+        // Number of particle trapped 
+        int number_of_particles();
+
+        // Time dependent case FE
+        void evolve_forward_Euler(double dt, double t);
+
+        // Time dependent case RK4
+        void evolve_RK4(double dt, double t);
+
+        arma::vec total_force(int i, double t);
+
+        arma::vec total_force_external(int i, double t);
+
+        arma::vec external_E_field(arma::vec r, double t);
+
+        void add_particles(int n_par);
+
 
 
 };
