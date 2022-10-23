@@ -79,21 +79,18 @@ arma::vec PenningTrap::total_force_external(int i){
 // The total force on particle_i from the other particles
 arma::vec PenningTrap::total_force_particles(int i){
     
-    arma::vec F = {0, 0, 0};
-
-    // Check if the particle i is in the trap 
-    if (arma::norm(particles[i].get_position()) < d){
+  arma::vec F = {0, 0, 0};
     
-      // Calculate the force on particle i from the other particles
-      for (int j = 0; j < particles.size(); j++){
+  // Calculate the force on particle i from the other particles
+  for (int j = 0; j < particles.size(); j++){
 
-        // We check if the particle j is far out of the trap 
-        if (arma::norm(particles[j].get_position()) < d){
-          F += force_particle(i, j);
-        }
-      }
+    // We check if the particle j is far out of the trap 
+    if (i != j){
+      F += force_particle(i, j);
     }
-    return F;
+  }
+  
+  return F;
   
 }
 
